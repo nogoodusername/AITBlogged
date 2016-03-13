@@ -1,82 +1,103 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700|Roboto:400,700);
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font: 14px/1.5em "Open Sans";
   background: #eee;
 }
 
+#wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.main {
+  margin: 0px 15px 0px 15px;
+}
+
 /*Header*/
 
 header {
-  width: 100%;
-  height: 100%;
-  background: url(../img/bg-header.jpg) no-repeat 50% 50%;
-  top: 0;
-  position: fixed;
-  z-index: -1;
+  position: relative;
+  margin-top: 20px;
+  padding: 30px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #3079AB;
 }
 
-.wrapper-parallax {
-  margin-top: 100%;
-  margin-bottom: 300px;
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+header h3 {
+  margin-bottom: 10px;
+  font-size: 1em;
+  color: #97BBD5;
 }
 
-.header h1 {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  text-transform: uppercase;
-  text-align: center;
-  font-family: Helvetica;
-  font-size: 150px;
-  color: #fff;
+header h1 {
+  margin-bottom: 10px;
+  line-height: 35px;
+  font-size: 2.5em;
+  color: white;
 }
 
-header,
-#scroll-animate-main {
-  -webkit-transition-property: all;
-  -moz-transition-property: all;
-  transition-property: all;
-  -webkit-transition-duration: 0.4s;
-  -moz-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0, 1);
+header p {
+  line-height: 1.5em;
+  margin-bottom: 80px;
+  color: #BED5DA;
+  margin-top: 20px;
 }
 
-#scroll-animate {
-  overflow: hidden;
+/*Navigation*/
+
+nav {
+  background-color: white;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  text-align: left;
+  padding-bottom: 15px;
 }
 
-#scroll-animate-main {
-  width: 100%;
-  left: 0;
-  position: fixed;
+.twitter {
+  width: 25%;
+  margin: 0 20px 20px;
+  padding: 15px 0;
+  border-bottom: 3px solid #3079AB;
 }
 
-#heightPage,
-#heightScroll {
-  width: 10px;
-  top: 0;
-  position: absolute;
-  z-index: 99;
+nav ul {
+  list-style: none;
+  text-align: right;
+  padding: 10px 0 0;
 }
 
-#heightPage {
-  left: 0;
+nav li {
+  display: inline-block;
+  padding: 0 20px;
 }
 
-#heightScroll {
-  right: 0;
+nav a {
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #666;
+}
+
+nav a:hover {
+  color: #5993BB;
+}
+
+nav .selected {
+  color: #5993BB;
 }
 
 /*Content*/
 .content {
-  height: 1000px;
+  /*height: 1000px;*/
   min-height: 1000px;
+  padding-top: 20px;
   background: #eee;
   position: relative;
   z-index: 1;
