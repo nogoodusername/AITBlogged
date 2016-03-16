@@ -65,48 +65,6 @@
 						<p class="summary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
 						<a href="content.html">Read More</a>
 					</div>
-				</div>
-				<div id="blog-card" class="blog-card alt">
-					<div class="photo photo2"></div>
-					<ul class="details">
-						<li class="author"><a href="#">r0d3nt</a></li>
-						<li class="date">Mar. 13, 2016</li>
-						<li class="tags">
-							<ul>
-								<li><a href="#">Learn</a></li>
-								<li><a href="#">Code</a></li>
-								<li><a href="#">HTML</a></li>
-								<li><a href="#">CSS</a></li>
-							</ul>
-						</li>
-					</ul>
-					<div class="description">
-						<h1>It begins</h1>
-						<h2>Opening a door to the future</h2>
-						<p class="summary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
-						<a href="content.html">Read More</a>
-					</div>
-				</div>
-				<div id="blog-card" class="blog-card">
-					<div class="photo photo1"></div>
-					<ul class="details">
-						<li class="author"><a href="#">hx</a></li>
-						<li class="date">Mar. 13, 2016</li>
-						<li class="tags">
-							<ul>
-								<li><a href="#">Learn</a></li>
-								<li><a href="#">Code</a></li>
-								<li><a href="#">HTML</a></li>
-								<li><a href="#">CSS</a></li>
-							</ul>
-						</li>
-					</ul>
-					<div class="description">
-						<h1>It begins</h1>
-						<h2>Opening a door to the future</h2>
-						<p class="summary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
-						<a href="content.html">Read More</a>
-					</div>
 				</div> -->
 	      	</section>	
 	  	</div>
@@ -120,15 +78,25 @@
 			getPostDataJSON();
 		});
 
-		function getPostDataJSON() {
+		function getPostDataJSON() {	
 			$.ajax({
 				type: 'GET',
 				url: 'core/jsonPostData.php',
+				// dataType: 'json',
 				success: function(response) {
 					var json_obj = $.parseJSON(response);
+
 					var output = "";
 
 					for (var i in json_obj) {
+						var id = json_obj[i].Id;
+						var Title = json_obj[i].Title;
+						var Subtitle = json_obj[i].Subtitle;
+						var Shrt_Desc = json_obj[i].Shrt_Desc;
+						var Author = json_obj[i].Author;
+						var PostDate = json_obj[i].PostDate;
+						var tag_obj = json_obj[i].Tags;
+
 						if (i%2 == 0) {
 							output += '<div id="blog-card" class="blog-card">';
 							output += '<div class="photo photo1"></div>';
@@ -137,24 +105,24 @@
 							output += '<div class="photo photo2"></div>';
 						}						
 						output += '<ul class="details">';
-						output += '<li class="author"><a href="#">'+json_obj[i].Author+'</a></li>';
-						output += '<li class="date">'+json_obj[i].PostDate+'</li>';
+						output += '<li class="author"><a href="#">'+Author+'</a></li>';
+						output += '<li class="date">'+PostDate+'</li>';
 						output += '<li class="tags">';
 						output += '<ul>';
-						var tag_obj = json_obj[i].Tags;
 						for (var i in tag_obj) {
-							output += '<li><a href="#">'+tag_obj[i].tag+'</a></li>';
+							var tag = tag_obj[i].tag;
+							output += '<li><a href="#">'+tag+'</a></li>';
 						}
 						output += '</ul>';
 						output += '</li>';
 						output += '</ul>';
 						output += '<div class="description">';
-						output += '<h1>'+json_obj[i].Title+'</h1>';
-						output += '<h2>'+json_obj[i].Subtitle+'</h2>';
-						output += '<p class="summary">'+json_obj[i].Shrt_Desc+'</p>';
-						output += '<a href="content.html">Read More</a>';
+						output += '<h1>'+Title+'</h1>';						
+						output += '<h2>'+Subtitle+'</h2>';
+						output += '<p class="summary">'+Shrt_Desc+'</p>';
+						output += '<a href="javascript:void(0);" data-postId='+id+' onClick="postRedirect('+id+');">Read More</a>';
 						output += '</div>';
-						output += '</div>';
+						output += '</div>\n';						
 					}
 
 					$('.content').html(output);
@@ -162,9 +130,14 @@
 					$('.loader').delay(1000).fadeOut();
 					$('.main').delay(1500).fadeIn();
 				}
-			});
-		}		
+			});				
+		}
 
+		function postRedirect(a) {			
+			var postId = a;
+			$(location).attr('href', 'content.html?postId='+postId);
+			console.log(postId);
+		}
 	</script>
 	<!--/Scripts-->
 </body>

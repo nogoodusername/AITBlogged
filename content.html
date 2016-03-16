@@ -40,8 +40,8 @@
 		  	</nav>
 
 	      	<section style="padding-top: 20px;">
-				<div id="#blog-card" class="blog-card full">
-					<div class="description main-card">
+				<div id="blog-card" class="blog-card full">
+					<!-- <div class="description main-card">
 						<div>
 							<h1>It begins</h1>
 							<h2>Opening a door to the future</h2>
@@ -50,6 +50,7 @@
 							<ul class="main-details">
 								<li class="author"><a href="#">HX</a></li>
 								<li class="date">Mar. 13, 2016</li>
+							</ul>
 						</div>
 						<p align="justify">
 							Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem.
@@ -62,9 +63,8 @@
 								<li><a href="#">HTML</a></li>
 								<li><a href="#">CSS</a></li>
 							</ul>
-						</div>
-						
-					</div>
+						</div>						
+					</div> -->
 				</div>
 	      	</section>	
 	  	</div>
@@ -73,9 +73,77 @@
 <!--Scripts-->
 	<script type="text/javascript">
 		$(window).load(function() {
-			$('.loader').delay(2000).fadeOut();
-			$('.main').delay(3050).fadeIn();
+			getPostDataJSON();
 		});
+
+		var getUrlParameter = function getUrlParameter(sParam) {
+		    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+		        sURLVariables = sPageURL.split('&'),
+		        sParameterName,
+		        i;
+
+		    for (i = 0; i < sURLVariables.length; i++) {
+		        sParameterName = sURLVariables[i].split('=');
+
+		        if (sParameterName[0] === sParam) {
+		            return sParameterName[1] === undefined ? true : sParameterName[1];
+		        }
+		    }
+		};
+
+		function getPostDataJSON() {
+			$.ajax({
+				type: 'GET',
+				url: 'core/jsonPostData.php',
+				success: function(response) {
+					var postId = getUrlParameter('postId')-1;
+					var json_obj = $.parseJSON(response);
+					var output = "";
+
+					for (var i in json_obj) {
+						if (i != postId) {
+							continue;
+						}
+						var id = json_obj[i].Id;						
+						var Title = json_obj[i].Title;
+						var Subtitle = json_obj[i].Subtitle;						
+						var Desc = json_obj[i].Desc;
+						var Author = json_obj[i].Author;
+						var PostDate = json_obj[i].PostDate;
+						var tag_obj = json_obj[i].Tags;
+
+						output += '<div class="description main-card">';
+						output += '<div>';
+						output += '<h1>'+Title+'</h1>';						
+						output += '<h2>'+Subtitle+'</h2>';
+						output += '</div>';
+						output += '<div>';
+						output += '<ul class="main-details">';
+						output += '<li class="author"><a href="#">'+Author+'</a></li>';
+						output += '<li class="date">'+PostDate+'</li>';
+						output += '</ul>';
+						output += '</div>';
+						output += '<p align="justify">'+Desc+'</p>';
+						output += '<div class="main-div">';
+						output += '<ul class="main-tags">';
+						output += '<li style="float: left; padding-top: 2px;"><h2>Tags:&nbsp;&nbsp;<h2></li>';
+						for (var i in tag_obj) {
+							var tag = tag_obj[i].tag;
+							output += '<li><a href="#">'+tag+'</a></li>';
+						}
+						output += '</ul>';
+						output += '</div>';
+						output += '</div>';
+
+					}
+
+					$('#blog-card').html(output);
+
+					$('.loader').delay(1000).fadeOut();
+					$('.main').delay(1500).fadeIn();
+				}
+			});
+		}		
 
 	</script>
 <!--/Scripts-->
