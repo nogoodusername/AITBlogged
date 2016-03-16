@@ -45,7 +45,7 @@
 		  	</nav>
 
 	      	<section class="content">
-				<div id="blog-card" class="blog-card">
+				<!-- <div id="blog-card" class="blog-card">
 					<div class="photo photo1"></div>
 					<ul class="details">
 						<li class="author"><a href="#">HX</a></li>
@@ -107,7 +107,7 @@
 						<p class="summary">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.</p>
 						<a href="content.html">Read More</a>
 					</div>
-				</div>
+				</div> -->
 	      	</section>	
 	  	</div>
 	</div>
@@ -117,9 +117,53 @@
 	<!--Scripts-->
 	<script type="text/javascript">
 		$(window).load(function() {
-			$('.loader').delay(3000).fadeOut();
-			$('.main').delay(4050).fadeIn();
+			getPostDataJSON();
 		});
+
+		function getPostDataJSON() {
+			$.ajax({
+				type: 'GET',
+				url: 'core/jsonPostData.php',
+				success: function(response) {
+					var json_obj = $.parseJSON(response);
+					var output = "";
+
+					for (var i in json_obj) {
+						if (i%2 == 0) {
+							output += '<div id="blog-card" class="blog-card">';
+							output += '<div class="photo photo1"></div>';
+						} else {
+							output += '<div id="blog-card" class="blog-card alt">';
+							output += '<div class="photo photo2"></div>';
+						}						
+						output += '<ul class="details">';
+						output += '<li class="author"><a href="#">'+json_obj[i].Author+'</a></li>';
+						output += '<li class="date">'+json_obj[i].PostDate+'</li>';
+						output += '<li class="tags">';
+						output += '<ul>';
+						var tag_obj = json_obj[i].Tags;
+						for (var i in tag_obj) {
+							output += '<li><a href="#">'+tag_obj[i].tag+'</a></li>';
+						}
+						output += '</ul>';
+						output += '</li>';
+						output += '</ul>';
+						output += '<div class="description">';
+						output += '<h1>'+json_obj[i].Title+'</h1>';
+						output += '<h2>'+json_obj[i].Subtitle+'</h2>';
+						output += '<p class="summary">'+json_obj[i].Shrt_Desc+'</p>';
+						output += '<a href="content.html">Read More</a>';
+						output += '</div>';
+						output += '</div>';
+					}
+
+					$('.content').html(output);
+
+					$('.loader').delay(1000).fadeOut();
+					$('.main').delay(1500).fadeIn();
+				}
+			});
+		}		
 
 	</script>
 	<!--/Scripts-->
