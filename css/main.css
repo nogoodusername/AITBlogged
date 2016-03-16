@@ -69,13 +69,6 @@ nav h3 {
   max-width:300px;
 }
 
-.twitter {
-  width: 25%;
-  margin: 0 20px 20px;
-  padding: 15px 0;
-  border-bottom: 3px solid #3079AB;
-}
-
 nav ul {
   list-style: none;
   text-align: right;
@@ -111,8 +104,6 @@ nav .selected {
 
 /*Content*/
 .content {
-  height: 1000px;
-  min-height: 1000px;
   padding-top: 20px;
   background: #eee;
   position: relative;
